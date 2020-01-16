@@ -1,5 +1,18 @@
 import React, {useState} from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import styled from 'styled-components';
+
+
+const StyledTab = styled(Tab)`
+  padding: 10px;
+  &:hover {
+    border-bottom: 2px solid  rgb(8, 21, 255);
+  }
+  &:focus {
+    border-bottom: 2px solid  rgb(8, 21, 255);
+  }
+`
+StyledTab.tabsRole = 'Tab';
 
 
 const TabComponent = () => {
@@ -8,11 +21,10 @@ const TabComponent = () => {
     <>
       <Tabs>
         <TabList>
-          <Tab>Title 1</Tab>
-          <Tab>Title 2</Tab>
-          <Tab>Title 3</Tab>
+          <Tab><StyledTab>Title 1</StyledTab></Tab>
+          <Tab><StyledTab>Title 2</StyledTab></Tab>
+          <Tab><StyledTab>Title 3</StyledTab></Tab>
         </TabList>
-
       <TabPanel>
         <h2>Any content 1</h2>
       </TabPanel>
