@@ -21,8 +21,8 @@ const TabComponent = () => {
     <>
       <Tabs>
         <TabList>
-          <Tab><StyledTab>Title 1</StyledTab></Tab>
-          <Tab><StyledTab>Title 2</StyledTab></Tab>
+          <Tab><StyledTab>Bills</StyledTab></Tab>
+          <Tab><StyledTab>Transactions</StyledTab></Tab>
           <Tab><StyledTab>Title 3</StyledTab></Tab>
         </TabList>
       <TabPanel>
