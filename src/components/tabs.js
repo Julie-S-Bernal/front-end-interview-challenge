@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import styled from 'styled-components';
 
+import PaymentTabke from './PaymentTable';
 
-const StyledTab = styled(Tab)`
+
+const StyledTab = styled.div`
   padding: 10px;
   &:hover {
     border-bottom: 2px solid  rgb(8, 21, 255);
@@ -12,10 +14,26 @@ const StyledTab = styled(Tab)`
     border-bottom: 2px solid  rgb(8, 21, 255);
   }
 `
-StyledTab.tabsRole = 'Tab';
-
 
 const TabComponent = () => {
+
+  const [data, setDataSet] = useState([]);
+  const [hasError, setErrors] = useState(false);
+
+  async function fetchData() {
+    const res = await fetch("http://localhost:3002/bills");
+    res
+      .json()
+      .then(res => setDataSet(res))
+      .catch(err => setErrors(err));
+  }
+
+  useEffect(() => {
+    fetchData();
+  },[]);
+
+
+console.log('data', data);
 
   return(
     <>
@@ -23,16 +41,21 @@ const TabComponent = () => {
         <TabList>
           <Tab><StyledTab>Bills</StyledTab></Tab>
           <Tab><StyledTab>Transactions</StyledTab></Tab>
-          <Tab><StyledTab>Title 3</StyledTab></Tab>
         </TabList>
       <TabPanel>
-        <h2>Any content 1</h2>
+      <div>
+        <h2>Bills</h2>
+        <PaymentTabke
+        data={data}
+        billsOnly={true}
+        />
+        </div>
       </TabPanel>
       <TabPanel>
-        <h2>Any content 2</h2>
-      </TabPanel>
-      <TabPanel>
-        <h2>Any content 3</h2>
+        <h2>Transactions</h2>
+        <PaymentTabke
+        data={data}
+        />
       </TabPanel>
       </Tabs>
     </>
