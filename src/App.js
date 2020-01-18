@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import welcomeIcon from './assets/welcome.jpg';
+
+import GlobalStyle from './styles/GlobalStyle';
+import TabsIndex from './components/tabs';
 
 class App extends Component {
   render() {
     return (
-      <img src={welcomeIcon} alt="Welcome!"/>
+      <>
+        <GlobalStyle />
+        <TabsIndex/>
+      </>
     );
   }
 }
