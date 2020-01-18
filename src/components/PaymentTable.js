@@ -15,10 +15,14 @@ const PaymentTable = (props) => {
       .catch(err => setErrors(err));
   }
 
-  const setPaymentStatus = (id, isBill )=> {
-    return fetch('http://localhost:3002/bills' + id, {
+  const setPaymentStatus = (id, isBill ) => {
+      console.log('working', id, isBill)
+    return fetch(`http://localhost:3002/bills/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        isBill: isBill ? false : true,
+        }),
       })
       .then(response => response.json());
   }
@@ -29,6 +33,7 @@ const PaymentTable = (props) => {
 
   const onButtonClicked = (id, isBill)=> {
     console.log(id, isBill);
+    setPaymentStatus(id, isBill);
   }
 
 
