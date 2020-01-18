@@ -20,7 +20,7 @@ const TabComponent = () => {
   const [data, setDataSet] = useState([]);
   const [hasError, setErrors] = useState(false);
 
-  async function fetchData() {
+  async function fetchBills() {
     const res = await fetch("http://localhost:3002/bills");
     res
       .json()
@@ -29,7 +29,7 @@ const TabComponent = () => {
   }
 
   useEffect(() => {
-    fetchData();
+    fetchBills();
   },[]);
 
 
