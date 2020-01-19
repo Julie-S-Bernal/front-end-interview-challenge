@@ -30,13 +30,13 @@ const PaymentTable = (props) => {
 
   const renderPaymentData = () => {
 
-    return props.data && props.data.map((bills, i) => {
+    return props.data && props.data.map((bills, index) => {
        const { id, iconUrl, categoryId, name, isBill } = bills
        if (bills.isBill && props.billsOnly) {
        return (
            <>
-          <tr id='parentRow' key={i} onClick={(event) => onRowClicked(event, id, bills.transactions)}>
-             <td ><img alt='icon' height='50px' src={iconUrl}/></td> {/* Some images link are broken and needs fixing */}
+          <tr id='parentRow' key={index} onClick={() => onRowClicked( id, bills.transactions)}>
+             <td ><img alt='icon' height='50px' src={iconUrl}/></td>
              <td>{categoryId}</td>
              <td>{`${name}(${bills.transactions.length})`}</td>
              <td><button onClick={(event) => onButtonClicked(event, id, isBill)}>Remove bill</button></td>
@@ -52,13 +52,13 @@ const PaymentTable = (props) => {
                 </thead>
                 <tbody>
                   <tr>
-                    {bills.transactions.map((bill, k) => {
+                    {bills.transactions.map((bill, index) => {
                       if(id === selectedId) {
                         return (
-                        <div key={k}>
+                        <tr key={index}>
                           <td>{bill.amount}</td>
                           <td>{bill.date}</td>
-                        </div>
+                        </tr>
                         )}
                       return null
                     })}
@@ -74,9 +74,9 @@ const PaymentTable = (props) => {
         if (!bills.isBill && !props.billsOnly) {
             return (
               <>
-               <tr id='parentRow' key={i} onClick={(event) => onRowClicked(event, id, bills.transactions)}>
+               <tr id='parentRow' key={index} onClick={() => onRowClicked(id, bills.transactions)}>
                   <td>
-                    <img alt='icon' height='50px' src={iconUrl}/> {/* Some images link are broken and needs fixing */}
+                    <img alt='icon' height='50px' src={iconUrl}/>
                   </td>
                   <td>{categoryId}</td>
                   <td>{`${name}(${bills.transactions.length})`}</td>
@@ -86,7 +86,7 @@ const PaymentTable = (props) => {
                </tr>
                 {
                   isTransactionVisible && id === selectedId ?
-                  <tr>
+                  <>
                     <thead>
                       <tr>
                         <th>Amount</th>
@@ -94,20 +94,18 @@ const PaymentTable = (props) => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        {bills.transactions.map((bill, index, k) => {
+                        {bills.transactions.map((bill, index) => {
                           if(id === selectedId) {
                             return (
-                              <div key={k}>
+                              <tr key={`${index}-k`}>
                                 <td>{bill.amount}</td>
                                 <td>{bill.date}</td>
-                              </div>
+                              </tr>
                             )}
                           return null
                         })}
-                      </tr>
                     </tbody>
-                  </tr>
+                  </>
                   :
                   null
                 }
