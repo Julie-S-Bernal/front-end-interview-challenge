@@ -25,6 +25,7 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Roboto', sans-serif;
     text-transform: uppercase;
     box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    font-weight: bold;
   }
   p {
     color: white;
