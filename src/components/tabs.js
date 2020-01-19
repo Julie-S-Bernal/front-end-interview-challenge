@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import styled from 'styled-components';
+import { Container, Col, Row } from 'styled-bootstrap-grid';
 
-import PaymentTabke from './PaymentTable';
+import PaymentTable from './PaymentTable';
 
 
 const StyledTab = styled.div`
-  padding: 10px;
+  text-align: left;
+  padding-right: 10px;
   &:hover {
     border-bottom: 2px solid  rgb(8, 21, 255);
   }
@@ -14,6 +16,7 @@ const StyledTab = styled.div`
     border-bottom: 2px solid  rgb(8, 21, 255);
   }
 `
+
 
 const TabComponent = () => {
 
@@ -32,35 +35,53 @@ const TabComponent = () => {
     fetchBills();
   },[]);
 
-
-console.log('data', data);
-
   return(
-    <>
-      <Tabs>
-        <TabList>
-          <Tab><StyledTab>Bills</StyledTab></Tab>
-          <Tab><StyledTab>Transactions</StyledTab></Tab>
-        </TabList>
-      <TabPanel>
-      <div>
-        <h2>Bills</h2>
-        <PaymentTabke
-        data={data}
-        billsOnly={true}
-        />
-        </div>
-      </TabPanel>
-      <TabPanel>
-        <h2>Transactions</h2>
-        <PaymentTabke
-        data={data}
-        />
-      </TabPanel>
-      </Tabs>
-    </>
+    <Container>
+      <Row>
+        <Col col={12}>
+          <Tabs style={{textAlign: 'left'}}>
+            <Row>
+              <Col col={12}>
+                <TabList >
+                  <Tab>
+                    <StyledTab>
+                      <h2>Bills</h2>
+                    </StyledTab>
+                  </Tab>
+                  <Tab>
+                    <StyledTab>
+                    <h2>Transactions</h2>
+                    </StyledTab>
+                  </Tab>
+                </TabList>
+              </Col>
+            </Row>
+            <Row>
+              <Col col={12}>
+                <TabPanel>
+                  <h2>Bills</h2>
+                  <PaymentTable
+                    data={data}
+                    billsOnly={true}
+                  />
+                </TabPanel>
+              </Col>
+            </Row>
+            <Row>
+              <Col col={12}>
+                <TabPanel>
+                  <h2>Transactions</h2>
+                  <PaymentTable
+                    data={data}
+                  />
+                </TabPanel>
+              </Col>
+            </Row>
+          </Tabs>
+        </Col>
+      </Row>
+    </Container>
   )
 }
-
 
 export default TabComponent;
