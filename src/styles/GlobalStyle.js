@@ -63,7 +63,7 @@ const GlobalStyles = createGlobalStyle`
     }
   }
   tbody {
-    tr {
+    #parentRow {
       &:hover {
         background-color: #fe1100;
         color: white;
