@@ -64,6 +64,7 @@ const TabComponent = () => {
                   <PaymentTable
                     data={data}
                     billsOnly={true}
+                    fetchBills={fetchBills}
                   />
                 </TabPanel>
               </Col>
@@ -74,6 +75,7 @@ const TabComponent = () => {
                   <h2>Transactions</h2>
                   <PaymentTable
                     data={data}
+                    fetchBills={fetchBills}
                   />
                 </TabPanel>
               </Col>
