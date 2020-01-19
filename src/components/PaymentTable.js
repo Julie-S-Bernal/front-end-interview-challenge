@@ -4,11 +4,12 @@ import React, {useState} from 'react';
 const PaymentTable = (props) => {
 
   const [isTransactionVisible, setTransactionVisible] = useState(false);
+  const [selectedId, setSelectedId] = useState('')
 
   const setPaymentStatus = (id, isBill ) => {
     return fetch(`http://localhost:3002/bills/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         isBill: isBill ? false : true,
         }),
@@ -16,59 +17,33 @@ const PaymentTable = (props) => {
       .then(response => response.json());
   }
 
-  const onButtonClicked = (id, isBill)=> {
+  const onButtonClicked = (event, id, isBill)=> {
+    event.stopPropagation();
     setPaymentStatus(id, isBill);
+    props.fetchBills();
   }
 
-  const onRowClicked = (id, transactions)=> {
-    isTransactionVisible ? setTransactionVisible(false) : setTransactionVisible(true)
+  const onRowClicked = id => {
+    setSelectedId(id)
+    isTransactionVisible ? setTransactionVisible(false) : setTransactionVisible(true);
   }
 
   const renderPaymentData = () => {
 
-    return props.data && props.data.map((bills, index) => {
-       const { id, iconUrl, categoryId, name, isBill } = bills //destructuring
-    //    console.log('isBill',  bills.transactions[0])
+    return props.data && props.data.map((bills, i) => {
+       const { id, iconUrl, categoryId, name, isBill } = bills
        if (bills.isBill && props.billsOnly) {
        return (
            <>
-          <tr id='parentRow' key={id} onClick={() => onRowClicked(id, isBill)}>
+          <tr id='parentRow' key={i} onClick={(event) => onRowClicked(event, id, bills.transactions)}>
              <td ><img alt='icon' height='50px' src={iconUrl}/></td> {/* Some images link are broken and needs fixing */}
              <td>{categoryId}</td>
-             <td>{name}{bills.transactions.length}</td>
-             <td><button onClick={() => onButtonClicked(id, isBill)}>Remove bill</button></td>
+             <td>{`${name}(${bills.transactions.length})`}</td>
+             <td><button onClick={(event) => onButtonClicked(event, id, isBill)}>Remove bill</button></td>
           </tr>
-          {isTransactionVisible ?
-          <tr>
-              <thead>
-                <tr>
-                  <th>Amount</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  {bills.transactions.map((bill, index, i) => {
-                    return (<div key={i}><td>{bill.amount}</td> <td>{bill.date}</td></div>)
-                  })}
-                </tr>
-              </tbody>
-            </tr>
-            : null }
-       </>
-       )
-       } else {
-        if (!bills.isBill && !props.billsOnly) {
-            return (
-              <>
-               <tr id='parentRow' key={id} onClick={() => onRowClicked(id, bills.transactions)}>
-                  <td ><img alt='icon' height='50px' src={iconUrl}/></td> {/* Some images link are broken and needs fixing */}
-                  <td>{categoryId}</td>
-                  <td>{name}</td>
-                  <td><button onClick={() => onButtonClicked(id, isBill)}>Add bill</button></td>
-               </tr>
-               {isTransactionVisible ?
-                <tr>
+          {
+            isTransactionVisible && id === selectedId ?
+              <tr>
                 <thead>
                   <tr>
                     <th>Amount</th>
@@ -77,33 +52,84 @@ const PaymentTable = (props) => {
                 </thead>
                 <tbody>
                   <tr>
-                    {bills.transactions.map((bill, index, i) => {
-                      return (<div key={i}><td>{bill.amount}</td> <td>{bill.date}</td></div>)
+                    {bills.transactions.map((bill, k) => {
+                      if(id === selectedId) {
+                        return (
+                        <div key={k}>
+                          <td>{bill.amount}</td>
+                          <td>{bill.date}</td>
+                        </div>
+                        )}
+                      return null
                     })}
                   </tr>
                 </tbody>
-            </tr> :
-            null}
+              </tr>
+            :
+             null
+            }
             </>
+          )
+       } else {
+        if (!bills.isBill && !props.billsOnly) {
+            return (
+              <>
+               <tr id='parentRow' key={i} onClick={(event) => onRowClicked(event, id, bills.transactions)}>
+                  <td>
+                    <img alt='icon' height='50px' src={iconUrl}/> {/* Some images link are broken and needs fixing */}
+                  </td>
+                  <td>{categoryId}</td>
+                  <td>{`${name}(${bills.transactions.length})`}</td>
+                  <td>
+                    <button onClick={(event) => onButtonClicked(event,id, isBill)}>Add bill</button>
+                  </td>
+               </tr>
+                {
+                  isTransactionVisible && id === selectedId ?
+                  <tr>
+                    <thead>
+                      <tr>
+                        <th>Amount</th>
+                        <th>Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        {bills.transactions.map((bill, index, k) => {
+                          if(id === selectedId) {
+                            return (
+                              <div key={k}>
+                                <td>{bill.amount}</td>
+                                <td>{bill.date}</td>
+                              </div>
+                            )}
+                          return null
+                        })}
+                      </tr>
+                    </tbody>
+                  </tr>
+                  :
+                  null
+                }
+              </>
             )
-         }
+          }
        }
        return null;
     })
- }
-
+  }
 
   return(
     <>
       <table>
-      <thead>
-      <tr>
-        <th>Icon</th>
-        <th>Category</th>
-        <th>Name</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
+        <thead>
+          <tr>
+            <th>Icon</th>
+            <th>Category</th>
+            <th>Name(Amount Of Transaction)</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
         <tbody>
           {renderPaymentData()}
         </tbody>

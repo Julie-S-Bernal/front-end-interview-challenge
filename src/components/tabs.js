@@ -24,12 +24,13 @@ const TabComponent = () => {
   const [hasError, setErrors] = useState(false);
 
   async function fetchBills() {
-    const res = await fetch("http://localhost:3002/bills");
+    const res = await fetch('http://localhost:3002/bills');
     res
       .json()
       .then(res => setDataSet(res))
       .catch(err => setErrors(err));
   }
+  console.log('data', data)
 
   useEffect(() => {
     fetchBills();
@@ -63,6 +64,7 @@ const TabComponent = () => {
                   <PaymentTable
                     data={data}
                     billsOnly={true}
+                    fetchBills={fetchBills}
                   />
                 </TabPanel>
               </Col>
@@ -73,6 +75,7 @@ const TabComponent = () => {
                   <h2>Transactions</h2>
                   <PaymentTable
                     data={data}
+                    fetchBills={fetchBills}
                   />
                 </TabPanel>
               </Col>
