@@ -1,13 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 
 
 const PaymentTable = (props) => {
 
-  const [data, setDataSet] = useState([]);
-  const [hasError, setErrors] = useState(false);
+  const [isTransactionVisible, setTransactionVisible] = useState(false);
 
   const setPaymentStatus = (id, isBill ) => {
-      console.log('working', id, isBill)
     return fetch(`http://localhost:3002/bills/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -19,44 +17,74 @@ const PaymentTable = (props) => {
   }
 
   const onButtonClicked = (id, isBill)=> {
-    console.log(id, isBill);
     setPaymentStatus(id, isBill);
   }
 
-
-
+  const onRowClicked = (id, transactions)=> {
+    isTransactionVisible ? setTransactionVisible(false) : setTransactionVisible(true)
+  }
 
   const renderPaymentData = () => {
 
     return props.data && props.data.map((bills, index) => {
        const { id, iconUrl, categoryId, name, isBill } = bills //destructuring
-       console.log('isBill', bills.transactions[0].amount)
+    //    console.log('isBill',  bills.transactions[0])
        if (bills.isBill && props.billsOnly) {
        return (
            <>
-          <tr key={id}>
+          <tr id='parentRow' key={id} onClick={() => onRowClicked(id, isBill)}>
              <td ><img alt='icon' height='50px' src={iconUrl}/></td> {/* Some images link are broken and needs fixing */}
              <td>{categoryId}</td>
-             <td>{index}</td>
              <td>{name}{bills.transactions.length}</td>
              <td><button onClick={() => onButtonClicked(id, isBill)}>Remove bill</button></td>
           </tr>
-          <tr key={id}>
-          <td>{bills.transactions.amount}</td>
-          <td>{bills.transactions.date}</td>
-       </tr>
+          {isTransactionVisible ?
+          <tr>
+              <thead>
+                <tr>
+                  <th>Amount</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  {bills.transactions.map((bill, index, i) => {
+                    return (<div key={i}><td>{bill.amount}</td> <td>{bill.date}</td></div>)
+                  })}
+                </tr>
+              </tbody>
+            </tr>
+            : null }
        </>
        )
        } else {
         if (!bills.isBill && !props.billsOnly) {
             return (
-               <tr key={id}>
+              <>
+               <tr id='parentRow' key={id} onClick={() => onRowClicked(id, bills.transactions)}>
                   <td ><img alt='icon' height='50px' src={iconUrl}/></td> {/* Some images link are broken and needs fixing */}
                   <td>{categoryId}</td>
-                  <td>{index}</td>
                   <td>{name}</td>
                   <td><button onClick={() => onButtonClicked(id, isBill)}>Add bill</button></td>
                </tr>
+               {isTransactionVisible ?
+                <tr>
+                <thead>
+                  <tr>
+                    <th>Amount</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    {bills.transactions.map((bill, index, i) => {
+                      return (<div key={i}><td>{bill.amount}</td> <td>{bill.date}</td></div>)
+                    })}
+                  </tr>
+                </tbody>
+            </tr> :
+            null}
+            </>
             )
          }
        }
@@ -68,6 +96,14 @@ const PaymentTable = (props) => {
   return(
     <>
       <table>
+      <thead>
+      <tr>
+        <th>Icon</th>
+        <th>Category</th>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
         <tbody>
           {renderPaymentData()}
         </tbody>

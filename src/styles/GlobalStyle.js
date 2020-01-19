@@ -5,28 +5,27 @@ const GlobalStyles = createGlobalStyle`
 
   body{
     font-family: 'Roboto', sans-serif;
+  }
   ul {
     list-style: none;
-    text-align: center;
+    padding-inline-start: 0;
   }
 
-   li {
+  li {
     display: inline-block;
     list-style-type: none;
-  }
-
-  h1 {
-   color: white;
-   font-family: 'Roboto', sans-serif;
   }
   h2 {
     color: rgb(8, 21, 255);
     font-family: 'Roboto', sans-serif;
   }
-  h3 {
-    color: white;
-    font-size: 1.4em;
+  button {
+    padding: 3px;
+    border-radius: 3px;
     font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    font-weight: bold;
   }
   p {
     color: white;
@@ -41,7 +40,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   table {
-    width: 800px;
+    width: 100%;
+    border-radius: 3px;
     font-family: 'Roboto', sans-serif;
     border-collapse: collapse;
     overflow: hidden;
@@ -58,18 +58,17 @@ const GlobalStyles = createGlobalStyle`
   }
   thead {
     th {
-      background-color: #55608f;
+      background-color: rgb(8,21,255);
+      color: white;
     }
   }
   tbody {
-    tr {
+    #parentRow {
       &:hover {
         background-color: #fe1100;
         color: white;
       }
     }
-  }
-
 }`
 
 export default GlobalStyles;
