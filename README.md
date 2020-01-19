@@ -1,3 +1,27 @@
+## Candidate Notes
+
+### Overview
+
+This app is build with react-tabs, react-hooks and styled-components. I have been working a lot with firebase and redux in my other repositery so I wanted to go back to the basics for this single page application. As somebody who did a cooding bootcamp I tend to heavily relly on framework so I wanted to improve my knowledge about tables so I created my own tables. This project took between 3-4hours to complete. it was mainly on the longer side because of my lack of experience with tables.
+
+### What can be improved:
+
+-Add error handlers
+-Add tests( I haven't experience testing with hooks yet but it is on my list of skills to acquire rather sooner than later)
+-Clean up code. The code needs to be broken down in smaller chunks to improve clarity
+-How to deal with ids when using conditional rendering and mapping?
+-Issue with onClick() buttons that could not be fixed with event.stopPropagation or event.preventDefault(). They currently require a double click.
+-Replace broken images with an empty image icon
+-Improve styling
+
+### Positive things
+ 
+A lot of learning was achieved
+Task is completed
+Current style looks clean but can be improved
+UI responsiveness of data and clear display of it.(If more data was used a loading spinner should be added as well as pagination)
+ 
+
 ## Cleo Frontend Interview - Bills
 ### Get Started
 1. Fork or clone this repo (a simple [`create-react-app`](https://github.com/facebook/create-react-app) extended with [`json-server`](https://github.com/typicode/json-server) and some Cleo-specific goodies)
