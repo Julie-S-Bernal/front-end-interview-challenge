@@ -29,8 +29,7 @@ const PaymentTable = (props) => {
   const renderPaymentData = () => {
 
     return props.data && props.data.map((bills, index) => {
-       const { id, iconUrl, categoryId, name, isBill } = bills //destructuring
-    //    console.log('isBill',  bills.transactions[0])
+       const { id, iconUrl, categoryId, name, isBill } = bills
        if (bills.isBill && props.billsOnly) {
        return (
            <>
@@ -40,7 +39,7 @@ const PaymentTable = (props) => {
              <td>{`${name}(${bills.transactions.length})`}</td>
              <td><button onClick={() => onButtonClicked(id, isBill)}>Remove bill</button></td>
           </tr>
-          {isTransactionVisible ?
+          {isTransactionVisible && id === selectedId ?
                 <tr>
                 <thead>
                   <tr>
@@ -51,7 +50,12 @@ const PaymentTable = (props) => {
                 <tbody>
                   <tr>
                     {bills.transactions.map((bill, index, i) => {
-                      return (<div key={i}><td>{bill.amount}</td> <td>{bill.date}</td></div>)
+                      if(id === selectedId) {
+                      return (
+                      <div key={i}>
+                        <td>{bill.amount}</td><td>{bill.date}</td></div>)
+                      }
+                      return null
                     })}
                   </tr>
                 </tbody>
@@ -69,7 +73,7 @@ const PaymentTable = (props) => {
                   <td>{`${name}(${bills.transactions.length})`}</td>
                   <td><button onClick={() => onButtonClicked(id, isBill)}>Add bill</button></td>
                </tr>
-               {isTransactionVisible ?
+               {isTransactionVisible && id === selectedId ?
                 <tr>
                 <thead>
                   <tr>
@@ -81,7 +85,9 @@ const PaymentTable = (props) => {
                   <tr>
                     {bills.transactions.map((bill, index, i) => {
                       if(id === selectedId) {
-                      return (<div key={i}><td>{bill.amount}</td> <td>{bill.date}</td></div>)
+                      return (
+                      <div key={i}>
+                        <td>{bill.amount}</td><td>{bill.date}</td></div>)
                       }
                       return null
                     })}

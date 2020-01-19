@@ -47,7 +47,6 @@ const GlobalStyles = createGlobalStyle`
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0,0,0,0.1);
   }
-  th,
   td {
     padding: 10px;
     background-color: rgba(255,255,255,0.2);
